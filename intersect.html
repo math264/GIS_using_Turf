@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Turf Polygonal Intersect</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+    />
+
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        bottom: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
+    <script>
+      // create Leaflet map
+      // centered on Pittsburgh
+      const map = L.map("map", {
+        zoomSnap: 0.1,
+        center: [40.4406, -79.9959],
+        zoom: 9,
+      });
+
+      // add a basemap of tiles
+      L.tileLayer(
+        "https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager_nolabels/{z}/{x}/{y}.png",
+        {
+          maxZoom: 18,
+          attribution:
+            '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy;<a href="https://carto.com/attribution">CARTO</a>',
+        }
+      ).addTo(map);
+
+      //  Create polygons over Pittsburgh, PA
+      const polygon_1 = turf.polygon([[
+          [-79.9659, 40.4406],
+          [-79.6159, 40.4406],
+          [-79.6159, 40.2616],
+          [-79.9639, 40.2616],
+          [-79.9659, 40.4406]
+        ]]);
+
+    const polygon_2 = turf.polygon([[
+          [-79.9959, 40.4406],
+          [-79.7259, 40.4406],
+          [-79.7259, 40.3416],
+          [-79.9959, 40.3416],
+          [-79.9959, 40.4406]
+        ]]);
+
+      // add the polygon boundary to the map    
+      L.geoJSON(polygon_1).addTo(map);
+      L.geoJSON(polygon_2).addTo(map);
+
+      // run turf.intersect() and .addTo(map)
+      var intersect = turf.intersect(polygon_1, polygon_2);
+      L.geoJSON(intersect, {
+          style: function (feature, layer) {
+            return {
+              color: "yellow",
+              fillColor: "#FFA703 ",
+              fillOpacity: ".6",
+              weight: 1,
+            };
+          },
+        }).addTo(map);
+        // var intersect will either be NULL if no intersection is found
+    </script>
+  </body>
+</html>
