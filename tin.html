@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Turf Polygonal Intersect</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+    />
+
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        bottom: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
+    <script>
+      // create Leaflet map
+      // centered on Pittsburgh
+      const map = L.map("map", {
+        zoomSnap: 0.1,
+        center: [40.4406, -79.9959],
+        zoom: 9,
+      });
+
+      // add a basemap of tiles
+      L.tileLayer(
+        "https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager_nolabels/{z}/{x}/{y}.png",
+        {
+          maxZoom: 18,
+          attribution:
+            '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy;<a href="https://carto.com/attribution">CARTO</a>',
+        }
+      ).addTo(map);
+
+       //  Create polygons over Pittsburgh, PA
+       const polygon_1 = turf.polygon([[
+          [-79.9659, 40.4406],
+          [-79.6159, 40.4406],
+          [-79.6159, 40.2616],
+          [-79.9639, 40.2616],
+          [-79.9659, 40.4406]
+        ]]);
+        
+        // create feature collection of random points using TURF
+        var points = turf.randomPoint(1000, {
+            bbox: [-124.848974, 24.396308, -66.885444, 49.384358]
+        });
+
+        
+    </script>
+  </body>
+</html>
