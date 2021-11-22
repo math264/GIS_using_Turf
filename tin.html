@@ -40,7 +40,7 @@
       const map = L.map("map", {
         zoomSnap: 0.1,
         center: [40.4406, -79.9959],
-        zoom: 9,
+        zoom: 10,
       });
 
       // add a basemap of tiles
@@ -53,21 +53,36 @@
         }
       ).addTo(map);
 
-       //  Create polygons over Pittsburgh, PA
-       const polygon_1 = turf.polygon([[
+      // POLYGON
+      //  Create polygon over Pittsburgh, PA for POPUP
+      const polygon_1 = turf.polygon([
+        [
           [-79.9659, 40.4406],
           [-79.6159, 40.4406],
           [-79.6159, 40.2616],
           [-79.9639, 40.2616],
-          [-79.9659, 40.4406]
-        ]]);
-        
-        // create feature collection of random points using TURF
-        var points = turf.randomPoint(1000, {
-            bbox: [-124.848974, 24.396308, -66.885444, 49.384358]
-        });
+          [-79.9659, 40.4406],
+        ],
+      ]);
+      // calculate the centroid of the polygon for the popup
+      var centroid = turf.centroid(polygon_1);
+      // shorcut ref to the coordinates
+      var coords = centroid.geometry.coordinates;
 
-        
+      // POINTS
+      // create feature collection of random points using TURF
+      var points = turf.randomPoint(10, {
+        bbox: [-79.9659, 40.4406, -79.6159, 40.2616],
+      });
+
+      // POPUP
+      // create a popup with the number of points inside the polygon
+      var count = points.features.length;
+        var popup = "TIN surface consists of " + count + "points within the polygon"
+
+      // Turf TIN
+      const tin = turf.tin(points);
+      L.geoJSON(tin).bindPopup(popup).addTo(map).openPopup([coords[1], coords[0]]);
     </script>
   </body>
 </html>
