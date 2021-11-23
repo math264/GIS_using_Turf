@@ -1,0 +1,31 @@
+{
+  "name": "gis_using_turf",
+  "version": "1.0.0",
+  "description": "GIS using turf client/server scripts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/math264/GIS_using_Turf.git"
+  },
+  "keywords": [
+    "Turf",
+    "-",
+    "GIS",
+    "-",
+    "Scripts"
+  ],
+  "author": "Michael A. Thomas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/math264/GIS_using_Turf/issues"
+  },
+  "homepage": "https://github.com/math264/GIS_using_Turf#readme",
+  "dependencies": {
+    "@turf/turf": "^6.5.0",
+    "chalk": "^4.1.2",
+    "geojson-validation": "^1.0.2"
+  }
+}
