@@ -14,18 +14,25 @@ fs.readFile('./project-files/Streets.geojson', 'utf8', (err, data) => {
   const streets = JSON.parse(data)
   console.log(chalk.green('data parsed'));
 
-  // shortcut ref to geometry coordinates
+  const newGeojson = {
+    "type": "FeatureCollection",
+    "features": []
+  }
+  // console.log(newGeojson["features"])
+  streets.features.forEach(function(feature){
+    // console.log(feature.geometry)
+    let cleaned = turf.cleanCoords(feature)
+    newGeojson.features.push(cleaned)
+  })
 
-  // clean coordinates of Streets.geojson
-  const cleaned = turf.cleanCoords(streets).geometry.coordinates;
   const outFileName = './data/streets-cleaned.json';
 
   //save polygon to new file
-  fs.writeFile(outFileName, JSON.stringify(cleaned), 'utf8', (err) => {
+  fs.writeFile(outFileName, JSON.stringify(newGeojson), 'utf8', (err) => {
     if (err) throw err
     console.log(outFileName + ' written to file!')
   });
-  validateGeoJson(cleaned);
+  validateGeoJson(newGeojson);
 });
 
 function validateGeoJson(geojson) {
